@@ -55,7 +55,7 @@ export class MenuService {
 
     this.factories
       .map(factory => factory(preProps, features, projectConfig, groups || []))
-      .filter(menu => menu && (allowEmpty || (menu.items && menu.items.length > 0)))
+      .filter(menu => menu && (allowEmpty || (menu.items && menu.items.length > 0)) && menu.id !== 'ROOT_Attestation' && menu.id !== 'ROOT_Responsibilities' && menu.id !== 'ROOT_Setup' && menu.id !== 'ROOT_Data')
       .sort((item1, item2) => this.compareMenuItems(item1, item2))
       .forEach(menu => {
         const existing = menu.id != null && menuItems.find(item => item.id === menu.id);

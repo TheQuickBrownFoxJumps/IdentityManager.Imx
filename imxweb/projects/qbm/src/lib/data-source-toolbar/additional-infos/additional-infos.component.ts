@@ -31,6 +31,9 @@ import { MatSelectionListChange } from '@angular/material/list';
 import { DataModel, EntitySchema, IClientProperty } from 'imx-qbm-dbts';
 import { ClientPropertyForTableColumns } from '../client-property-for-table-columns';
 
+//import { SessionGroupsService } from '../../session-groups/session-groups.service'
+
+
 @Component({
   selector: 'imx-additional-infos',
   templateUrl: './additional-infos.component.html',
@@ -62,13 +65,34 @@ export class AdditionalInfosComponent implements OnInit {
       additionalColumns: ClientPropertyForTableColumns[];
       type: 'list' | 'columns';
     },
-    public dialogRef: MatDialogRef<AdditionalInfosComponent>
+    public dialogRef: MatDialogRef<AdditionalInfosComponent>,
+    //private readonly sessionService: SessionGroupsService
   ) {}
 
   public ngOnInit(): void {
+
+    const excludedColumns = [
+      //'Identity type',
+      //'Full name',
+      //'Peer group factor'
+      'InternalName',
+      'IdentityType',
+      'PeerGroupFactor',
+    ];
+
+    //const permissionGroups = this.sessionService.getPermissionGroups();
+    //console.log('Permission groups:', permissionGroups);
+
     const possiblePropertiesWithDuplicates = this.data.additionalPropertyNames.concat(this.data.displayedColumns);
+
+    // console.log('=== Property List ===');
+    // possiblePropertiesWithDuplicates.forEach(prop => {
+    //   console.log(`Display: ${prop.Display}, ColumnName: ${prop.ColumnName}`);
+    // });
+
     this.possibleProperties = possiblePropertiesWithDuplicates
       .filter((element, index) => possiblePropertiesWithDuplicates.findIndex((prop) => prop.ColumnName === element.ColumnName) === index)
+      .filter(prop => !excludedColumns.includes(prop.ColumnName)) // <<<<< Exclusion filter
       .sort((prop1, prop2) => AdditionalInfosComponent.compareNames(prop1, prop2));
   }
 

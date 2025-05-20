@@ -1,6 +1,6 @@
 <h1 *ngIf="!isEmpty" class="mat-headline">
   <span>{{ '#LDS#Heading Shopping Cart' | translate }}</span>
-  <imx-help-contextual></imx-help-contextual>
+  <!-- <imx-help-contextual></imx-help-contextual> -->
 </h1>
 
 <imx-shopping-cart-empty *ngIf="isEmpty"></imx-shopping-cart-empty>
@@ -92,10 +92,10 @@
               {{ '#LDS#View saved for later list' | translate }}
             </button>
             <mat-divider></mat-divider>
-            <button *ngIf="canCreateRequestTemplates" [disabled]="!cartItems?.haveSelectedItems()" data-imx-identifier="shoppingcart-create-itshoppattern-button-selected-products"
+            <!-- <button *ngIf="canCreateRequestTemplates" [disabled]="!cartItems?.haveSelectedItems()" data-imx-identifier="shoppingcart-create-itshoppattern-button-selected-products"
               mat-menu-item (click)="createItshopPattern(selectedItems)">
               {{'#LDS#Create product bundle' | translate}}
-            </button>
+            </button> -->
             <button *ngIf="cartItems?.forLater; else moveToLater" mat-menu-item data-imx-identifier="imx-table-actions-move-menu" [disabled]="!cartItems?.itemsCanBeMoved()"
                 title="{{ '#LDS#Moves the selected products to your shopping cart' | translate }}" (click)="cartItems?.moveSelectedToCart()">
                 {{ '#LDS#Move to shopping cart' | translate }}

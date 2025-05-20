@@ -2,7 +2,7 @@
 
   <h1 class="mat-headline">
     <span translate>#LDS#Heading Profile Settings</span>
-    <imx-help-contextual [contextId]="selectedContextId"></imx-help-contextual>
+    <!-- <imx-help-contextual [contextId]="selectedContextId"></imx-help-contextual> -->
   </h1>
 
   <imx-identity-select
@@ -14,7 +14,7 @@
   ></imx-identity-select>
 
   <mat-tab-group *ngIf="!mailToBeUnsubscribed; else unsubscribeDisplay" [(selectedIndex)]="tabIndex">
-    <mat-tab label="{{ '#LDS#Heading Hyperview' | translate }}">
+    <!-- <mat-tab label="{{ '#LDS#Heading Hyperview' | translate }}">
       <ng-template matTabContent>
         <mat-card class="no-grow" *ngIf="canShowEntitlementsHyperview">
           <mat-card-content class="profile-hyperview">
@@ -75,7 +75,7 @@
       <ng-template matTabContent>
         <imx-security-keys></imx-security-keys>
       </ng-template>
-    </mat-tab>
+    </mat-tab> -->
     <ng-container *ngFor="let tab of dynamicTabs">
       <mat-tab [label]="tab.inputData.label | translate">
         <ng-template matTabContent>
@@ -86,7 +86,7 @@
   </mat-tab-group>
 
   <ng-template #unsubscribeDisplay>
-    <mat-card>
+    <!-- <mat-card>
       <mat-card-title>
         {{ '#LDS#Heading Email Notification' | translate }}
       </mat-card-title>
@@ -106,12 +106,12 @@
           </eui-alert>
         </div>
       </mat-card-content>
-    </mat-card>
+    </mat-card> -->
     <div class="imx-button-bar">
       <button mat-stroked-button (click)="showProfile()" data-imx-identifier="edit-profile-button-show-profile">
         {{ '#LDS#View profile' | translate }}
       </button>
-      <button
+      <!-- <button
         mat-raised-button
         color="primary"
         (click)="unsubscribe(mailToBeUnsubscribed.UidMail)"
@@ -119,7 +119,7 @@
         data-imx-identifier="edit-profile-button-unsubscribe"
       >
         {{ '#LDS#Deactivate notification' | translate }}
-      </button>
+      </button> -->
     </div>
   </ng-template>
 </ng-container>

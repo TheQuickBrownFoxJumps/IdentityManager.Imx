@@ -3,7 +3,7 @@
     <mat-tab [label]="'#LDS#Heading Details' | translate">
       <div class="calls-sidesheet__tab-content">
         <div eui-sidesheet-content class="calls-sidesheet__tab-content-body" [ngClass]="!sidesheetData.isNew ? 'eui-sidesheet-content--no-padding-top' : ''">
-          <imx-help-contextual [contextId]="contexId" [title]="'#LDS#Information about this tab:'" *ngIf="!sidesheetData.isNew"></imx-help-contextual>
+          <!-- <imx-help-contextual [contextId]="contexId" [title]="'#LDS#Information about this tab:'" *ngIf="!sidesheetData.isNew"></imx-help-contextual> -->
           <mat-card>
             <form [formGroup]="detailsFormGroup">
               <imx-cdr-editor *ngFor="let cdr of cdrList" [cdr]="cdr" (controlCreated)="detailsFormGroup.addControl(cdr.column.ColumnName, $event)"></imx-cdr-editor>

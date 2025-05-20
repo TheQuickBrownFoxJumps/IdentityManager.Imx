@@ -112,18 +112,18 @@ export class ItshopPatternModule {
         const items: MenuItem[] = [];
         const requestTemplatesEnabled = projectConfig.ITShopConfig.VI_ITShop_ProductSelectionFromTemplate;
 
-        if (preProps.includes('ITSHOP') && requestTemplatesEnabled) {
-          items.push(
-            {
-              id: 'QER_Request_RequestTemplates',
-              navigationCommands: {
-                commands: ['itshop', 'requesttemplates']
-              },
-              title: '#LDS#Menu Entry Product bundles',
-              sorting: '10-50',
-            }
-          );
-        }
+        // if (preProps.includes('ITSHOP') && requestTemplatesEnabled) {
+        //   items.push(
+        //     {
+        //       id: 'QER_Request_RequestTemplates',
+        //       navigationCommands: {
+        //         commands: ['itshop', 'requesttemplates']
+        //       },
+        //       title: '#LDS#Menu Entry Product bundles',
+        //       sorting: '10-50',
+        //     }
+        //   );
+        // }
 
         if (items.length === 0) {
           return null;

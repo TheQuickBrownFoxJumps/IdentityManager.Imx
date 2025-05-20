@@ -1,5 +1,5 @@
 <!-- List-Tile -->
-<imx-tile *ngIf="viewReady && ownerships?.length > 0"
+<!-- <imx-tile *ngIf="viewReady && ownerships?.length > 0"
   data-imx-identifier="businessowner-chartsummary-tile-my-responsibilities"
   [caption]="'#LDS#Heading My Responsibilities' | translate" [identifier]="'my-responsibilities'" [size]="'Dashboard'"
   hideActionButton="true"
@@ -14,10 +14,10 @@
       </li>
     </ul>
   </div>
-</imx-tile>
+</imx-tile> -->
 
 <!-- List-Tile -->
-  <imx-tile *ngIf="viewReady && qerPermissions.isPersonManager && allReportsCount > 0"
+  <!-- <imx-tile *ngIf="viewReady && qerPermissions.isPersonManager && allReportsCount > 0"
   data-imx-identifier="businessowner-chartsummary-tile-my-direct-reports" [identifier]="'my-direct-reports'"
   [size]="'Dashboard'" [contentType]="'Container'" (actionClick)="openIdentitiesOverview()">
   <ng-template #CaptionTemplate>
@@ -50,10 +50,10 @@
       </li>
     </ul>
   </div>
-</imx-tile>
+</imx-tile> -->
 
 <!-- Show Create identities button if the user has no direct and indirect reports -->
-<imx-tile class="imx-create-identity-tile" *ngIf="viewReady && qerPermissions.isPersonManager && allReportsCount === 0"
+<!-- <imx-tile class="imx-create-identity-tile" *ngIf="viewReady && qerPermissions.isPersonManager && allReportsCount === 0"
   data-imx-identifier="businessowner-chartsummary-tile-my-direct-reports-create-identity" [identifier]="'my-direct-reports-create-identity'"
   size="Custom-Tile" >
   <ng-template #CustomTemplate>
@@ -70,4 +70,4 @@
       </button>
     </mat-card-actions>
   </ng-template>
-</imx-tile>
+</imx-tile> -->

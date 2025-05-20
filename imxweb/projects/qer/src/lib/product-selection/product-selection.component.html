@@ -5,7 +5,7 @@
       >&nbsp;-
       {{ (referenceUser ? '#LDS#Heading By Reference User' : '#LDS#Heading By Peer Group') | translate }}
     </span>
-    <imx-help-contextual></imx-help-contextual>
+    <!-- <imx-help-contextual></imx-help-contextual> -->
     <button [matMenuTriggerFor]="ToolbarButton1" mat-button class="imx-actions-button" data-imx-identifier="productselection-button-actions">
       <eui-icon icon="ellipsisvertical"></eui-icon>
     </button>
@@ -86,7 +86,7 @@
     (valueChange)="onRecipientsChanged()"
   ></imx-cdr-editor>
 
-  <eui-icon #infoIcon [style.visibility]="referenceUser || uidPersonPeerGroup ? 'visible' : 'hidden'" icon="info" class="imx-info-icon" [matTooltip]="infoboxTooltip"></eui-icon>
+  <!-- <eui-icon #infoIcon [style.visibility]="referenceUser || uidPersonPeerGroup ? 'visible' : 'hidden'" icon="info" class="imx-info-icon" [matTooltip]="infoboxTooltip"></eui-icon> -->
 
   <imx-servicecategory-list
     class="imx-categories"

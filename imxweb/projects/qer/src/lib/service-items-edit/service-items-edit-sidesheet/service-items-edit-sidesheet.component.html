@@ -3,7 +3,7 @@
     <mat-tab [label]="'#LDS#Heading Details' | translate">
       <div class="imx-tab-content">
         <div class="imx-tab-content-body">
-          <imx-help-contextual [contextId]="contextId" [title]="'#LDS#Information about this tab:'"></imx-help-contextual>
+          <!-- <imx-help-contextual [contextId]="contextId" [title]="'#LDS#Information about this tab:'"></imx-help-contextual> -->
           <imx-service-items-edit-form #serviceItemsEditForm [serviceItem]="serviceItem"
             (formControlCreated)="this.formArray.push($event)">
           </imx-service-items-edit-form>

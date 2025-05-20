@@ -7,7 +7,8 @@
 
       <h1 class="imx-masthead-app-name" data-imx-identifier="masthead-button-goHome"
         tabindex="0" [ngStyle]="{'cursor': isAppOverview ? 'default' : 'pointer'}" (keydown.enter)="goHome()" (click)="goHome()">
-        {{ productName }} {{ appConfig?.Config?.Title }}
+        <!-- {{ productName }} {{ appConfig?.Config?.Title }} -->
+        TU Delft Identity Manager - Authorizations Portal
       </h1>
       <span class="imx-masthead-space"></span>
       <span class="imx-masthead--controls">
@@ -35,12 +36,12 @@
       <span translate>#LDS#Log out</span>
     </button>
   </mat-menu>
-  <button mat-button class="imx-masthead--icon-button" [matMenuTriggerFor]="helpMenu"
+  <!-- <button mat-button class="imx-masthead--icon-button" [matMenuTriggerFor]="helpMenu"
     data-imx-identifier="help-menu-button">
     <eui-icon icon="help"></eui-icon>
     <span translate>#LDS#Menu Entry Help</span>
-  </button>
-  <mat-menu #helpMenu="matMenu">
+  </button> -->
+  <!-- <mat-menu #helpMenu="matMenu">
     <button mat-menu-item data-imx-identifier="help-menu-connection" (click)="openConnection()">
       <span translate>#LDS#Menu Entry Connection</span>
     </button>
@@ -59,5 +60,5 @@
     <button mat-menu-item data-imx-identifier="help-menu-about" (click)="openAboutDialog()">
       <span translate>#LDS#Menu Entry Info</span>
     </button>
-  </mat-menu>
+  </mat-menu> -->
 </ng-template>

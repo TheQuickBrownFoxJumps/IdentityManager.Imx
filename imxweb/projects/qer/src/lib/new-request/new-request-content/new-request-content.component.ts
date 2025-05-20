@@ -129,15 +129,15 @@ export class NewRequestContentComponent implements OnInit, OnDestroy {
         active: false,
       });
     }
-    if (canSelectFromTemplate) {
-      this.navLinks.push({
-        id: 3,
-        title: '#LDS#Heading Product Bundles',
-        component: NewRequestProductBundleComponent,
-        link: 'productBundles',
-        active: false,
-      });
-    }    
+    // if (canSelectFromTemplate) {
+    //   this.navLinks.push({
+    //     id: 3,
+    //     title: '#LDS#Heading Product Bundles',
+    //     component: NewRequestProductBundleComponent,
+    //     link: 'productBundles',
+    //     active: false,
+    //   });
+    // }    
   }
 
   public ngOnDestroy(): void {

@@ -29,7 +29,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab *ngIf="isRoleAssignment" [label]="'#LDS#Heading Entitlements' | translate">
+  <!-- <mat-tab *ngIf="isRoleAssignment" [label]="'#LDS#Heading Entitlements' | translate">
     <div class="imx-request-entitlements">
       <imx-product-entitlements [uidAccProduct]="request.UID_AccProduct.value"></imx-product-entitlements>
     </div>
@@ -39,7 +39,7 @@
     <ng-template matTabContent
       ><imx-ext [id]="ruleViolationDetailId" [properties]="{ pwoId: request.GetEntity().GetKeys()[0], request: request, isApproval: isApproval }"></imx-ext
     ></ng-template>
-  </mat-tab>
+  </mat-tab> -->
 
   <!-- TODO later
   <ObjectSwitchContainer [ActionType]="ObjectView" [EnableNavigation]="true"
