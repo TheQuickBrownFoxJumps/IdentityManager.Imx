@@ -67,7 +67,7 @@
         <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, ['PERSONHASOBJECT', 'PERSONHASASSIGNMENTORDER', 'ASSIGNED'])" class="imx-request-col-status">
           <eui-icon
             icon="approvals"
-            [matTooltip]="'#LDS#This product has already been assigned to {0}.' | translate | ldsReplace: orchestration.recipients.Column?.GetDisplayValue()"
+            [matTooltip]="'#LDS#This product has already been assigned to {0}.' | translate | ldsReplace : orchestration.recipients.Column?.GetDisplayValue()"
           ></eui-icon>
         </div>
         <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, 'ORDER')" class="imx-request-col-status">

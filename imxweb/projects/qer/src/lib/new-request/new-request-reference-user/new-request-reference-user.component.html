@@ -60,7 +60,10 @@
     <imx-data-table-column [entityColumn]="productApi.entitySchema?.Columns['OrderableStatus']" columnLabel="{{ '#LDS#Status' | translate }}" align="center">
       <ng-template let-prod>
         <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, ['PERSONHASOBJECT', 'PERSONHASASSIGNMENTORDER', 'ASSIGNED'])" class="imx-request-col-status">
-          <eui-icon icon="approvals" [matTooltip]="'#LDS#This product has already been assigned to {0}.' | translate | ldsReplace: recipients.Column?.GetDisplayValue()"></eui-icon>
+          <eui-icon
+            icon="approvals"
+            [matTooltip]="'#LDS#This product has already been assigned to {0}.' | translate | ldsReplace : recipients.Column?.GetDisplayValue()"
+          ></eui-icon>
         </div>
         <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, 'ORDER')" class="imx-request-col-status">
           <eui-icon icon="request" [matTooltip]="'#LDS#This product has already been requested.' | translate"></eui-icon>

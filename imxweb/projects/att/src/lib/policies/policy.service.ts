@@ -56,15 +56,19 @@ import { ApiService } from '../api.service';
 import { AttestationPolicy } from './policy-list/attestation-policy';
 import { PolicyLoadParameters } from './policy-list/policy-load-parameters.interface';
 import { PolicyCopyData } from './policy.interface';
+import { AttestationFeatureGuardService } from '../attestation-feature-guard.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PolicyService {
+  public abortController = new AbortController();
+
   private readonly apiClientMethodFactory = new V2ApiClientMethodFactory();
 
   constructor(
     private api: ApiService,
+    private readonly attFeatureService: AttestationFeatureGuardService,
     private readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly translator: TranslateService,
     private readonly config: AppConfigService,
@@ -83,12 +87,15 @@ export class PolicyService {
     return this.api.typedClient.PortalAttestationPolicyEditInteractive.GetSchema();
   }
 
-  public async getPolicies(parameters: PolicyLoadParameters): Promise<ExtendedTypedEntityCollection<AttestationPolicy, {}>> {
-    const collection = await this.api.typedClient.PortalAttestationPolicy.Get(parameters);
+  public async getPolicies(parameters: PolicyLoadParameters): Promise<ExtendedTypedEntityCollection<AttestationPolicy, {}> | undefined> {
+    const collection = await this.api.typedClient.PortalAttestationPolicy.Get(parameters, { signal: this.abortController.signal });
+    if (!collection) {
+      return undefined;
+    }
     return {
-      tableName: collection.tableName,
-      totalCount: collection.totalCount,
-      Data: collection.Data.map((element, index) => new AttestationPolicy(element.GetEntity())),
+      tableName: collection?.tableName,
+      totalCount: collection?.totalCount,
+      Data: collection?.Data.map((element, index) => new AttestationPolicy(element.GetEntity())),
     };
   }
 
@@ -207,7 +214,7 @@ export class PolicyService {
   }
 
   public async isComplienceFrameworkEnabled(): Promise<boolean> {
-    return (await this.api.client.portal_attestation_config_get()).EnableComplianceFrameworks;
+    return (await this.attFeatureService.getAttestationConfig()).EnableComplianceFrameworks;
   }
 
   public getReportDownloadOptions(key: string, display: string): EuiDownloadOptions {
@@ -219,7 +226,7 @@ export class PolicyService {
   }
 
   public async getCasesThreshold(): Promise<number> {
-    return (await this.api.client.portal_attestation_config_get()).PolicyObjectCountThreshold;
+    return (await this.attFeatureService.getAttestationConfig()).PolicyObjectCountThreshold;
   }
 
   public async getRunCountForPolicy(uid: string): Promise<number> {
@@ -235,6 +242,11 @@ export class PolicyService {
       ],
     });
     return element.totalCount;
+  }
+
+  public abortCall(): void {
+    this.abortController.abort();
+    this.abortController = new AbortController();
   }
 
   private async copyPropertiesFrom(

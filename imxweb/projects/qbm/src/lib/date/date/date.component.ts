@@ -24,11 +24,10 @@
  *
  */
 
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import moment from 'moment-timezone';
-import { Moment } from 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { ClassloggerService } from '../../classlogger/classlogger.service';
 import { DateParser } from './date-parser';
@@ -116,6 +115,9 @@ export class DateComponent implements OnInit, OnDestroy {
 
   @Input() validateOnlyOnChange: boolean = false;
 
+  /*Emits an event, when the user changed something in the UI, by closing dialogs or when focus is lost */
+  @Output() manuallyChanged: EventEmitter<void> = new EventEmitter();
+
   /**
    * @ignore only public because of databinding in template
    *
@@ -152,9 +154,18 @@ export class DateComponent implements OnInit, OnDestroy {
   public shadowTime = new UntypedFormControl();
 
   /**
+   * Closes all picker and emits the manually changed event.
+   */
+  public handleClose(): void {
+    this.isDatePickerOpen = false;
+    this.isTimePickerOpen = false;
+    this.manuallyChanged.emit();
+  }
+
+  /**
    * @ignore
    * the result of the internal shadow form control.
-   * Useful to avoid unecessay update loop when writing back the value to the input control.
+   * Useful to avoid unnecessary update loop when writing back the value to the input control.
    */
   private result: Moment;
 
@@ -219,6 +230,9 @@ export class DateComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.control.valueChanges.subscribe((x) => {
+        if (this.shadowText.untouched) {
+          this.shadowText.markAsTouched();
+        }
         this.isUpdated = true;
         this.handleControlChanged();
       })
@@ -287,6 +301,7 @@ export class DateComponent implements OnInit, OnDestroy {
 
   public focusout(): void {
     this.handleShadowTimeChanged();
+    this.manuallyChanged.emit();
   }
 
   /**

@@ -1,3 +1,29 @@
+/*
+ * ONE IDENTITY LLC. PROPRIETARY INFORMATION
+ *
+ * This software is confidential.  One Identity, LLC. or one of its affiliates or
+ * subsidiaries, has supplied this software to you under terms of a
+ * license agreement, nondisclosure agreement or both.
+ *
+ * You may not copy, disclose, or use this software except in accordance with
+ * those terms.
+ *
+ *
+ * Copyright 2023 One Identity LLC.
+ * ALL RIGHTS RESERVED.
+ *
+ * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
+ * WARRANTIES ABOUT THE SUITABILITY OF THE SOFTWARE,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR
+ * NON-INFRINGEMENT.  ONE IDENTITY LLC. SHALL NOT BE
+ * LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE
+ * AS A RESULT OF USING, MODIFYING OR DISTRIBUTING
+ * THIS SOFTWARE OR ITS DERIVATIVES.
+ *
+ */
+
 import { Component, EventEmitter } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { EuiSelectOption } from '@elemental-ui/core';
@@ -141,6 +167,20 @@ export class EditBitmaskComponent implements CdrEditor {
 
   private async initOptions(): Promise<void> {
     const bitMaskCaptions = this.columnContainer?.metaData?.GetBitMaskCaptions();
-    this.options = bitMaskCaptions?.map((elem, idx): EuiSelectOption => ({ display: elem, value: this.getBinaryNumber(idx) })) || [];
+    this.options =
+      bitMaskCaptions
+        ?.map((elem, idx): EuiSelectOption => ({ display: elem, value: this.getBinaryNumber(idx) }))
+        // afterwards reduce empty options (= deactivated bitmask captions)
+        .filter((option) => option.display.length > 0) || [];
+
+    // don't show deactivated options as selected
+    const newValues = [];
+    const values = this.control.value;
+    values.forEach((value) => {
+      if (this.options.filter((option) => option.value === value).length !== 0) {
+        newValues.push(value);
+      }
+    });
+    this.control.setValue(newValues, { emitEvent: false });
   }
 }

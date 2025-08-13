@@ -7,7 +7,7 @@
             {{ (data.canEditAndDelete ? editableDetailsInfoText : detailsInfoText) | translate}}
           </eui-alert>
           <mat-card>
-            <eui-badge *ngIf="!data.pattern.IsPublicPattern.value">
+            <eui-badge *ngIf="!data.pattern?.IsPublicPattern.value">
               {{ '#LDS#Private product bundle' | translate}}
             </eui-badge>
             <eui-badge color="green" *ngIf="data?.pattern?.IsPublicPattern?.value">
@@ -28,7 +28,7 @@
           <mat-card>
             <div class="imx-table-container">
               <imx-data-source-toolbar #dst [options]="['search']" [settings]="dstSettings" [busyService]="busyService"
-                (search)="getData({ search: $event })" (navigationStateChanged)="getData($event)"
+                (search)="onSearch($event)" (navigationStateChanged)="getData($event)"
                 data-imx-identifier="itshop-pattern-sidesheet-dst">
               </imx-data-source-toolbar>
               <imx-data-table #dataTable [dst]="dst" class="imx-patterns-table" [detailViewVisible]="false"
@@ -63,7 +63,7 @@
     </button>
     <button mat-raised-button data-imx-identifier="itshop-pattern-sidesheet-button-toggle-public"
       *ngIf="data.isMyPattern && data.adminMode" (click)="togglePublic()">
-      {{ (data.pattern.IsPublicPattern.value ? '#LDS#Unshare' : '#LDS#Share') | translate }}
+      {{ (data.pattern?.IsPublicPattern?.value ? '#LDS#Unshare' : '#LDS#Share') | translate }}
     </button>
     <button mat-raised-button color="primary" data-imx-identifier="itshop-pattern-sidesheet-button-toggle-public"
       [disabled]="!detailsFormGroup.dirty || detailsFormGroup.invalid" *ngIf="data.canEditAndDelete" (click)="save()">

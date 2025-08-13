@@ -25,6 +25,7 @@
  */
 
 import { EntityCollectionData, EntityData, MultiValue } from 'imx-qbm-dbts';
+import { buildWorkingStepsOrdered } from './request-info/step-helper';
 
 export class WorkflowDataWrapper {
   constructor(
@@ -43,14 +44,17 @@ export class WorkflowDataWrapper {
   }
 
   public userAskedLastQuestion(userUid: string, decisionLevel: number): boolean {
-    const questionHistory = this.data.WorkflowHistory.Entities.filter(
-      (entityData) => entityData.Columns.DecisionLevel.Value === decisionLevel
-    ).sort((item1, item2) => this.ascendingDate(item1.Columns.XDateInserted?.Value, item2.Columns.XDateInserted?.Value));
-    return (
-      questionHistory.length > 0 &&
-      questionHistory[0].Columns.DecisionType.Value === 'Query' &&
-      questionHistory[0].Columns.UID_PersonHead.Value === userUid
+    const questionHistory = this.data.WorkflowHistory?.Entities?.filter(
+      (entityData) => entityData.Columns?.DecisionLevel.Value === decisionLevel && entityData.Columns?.DecisionType.Value === 'Query',
+    ).sort((item1, item2) => this.ascendingDate(item1.Columns?.XDateInserted?.Value, item2.Columns?.XDateInserted?.Value));
+    return !!questionHistory?.length && questionHistory[0].Columns?.UID_PersonHead.Value === userUid;
+  }
+
+  public hasOpenQuestions(decisionLevel: number): boolean {
+    const items = this.data.WorkflowData?.Entities?.filter(
+      (entityData) => entityData.Columns?.LevelNumber.Value === decisionLevel && entityData.Columns?.Decision.Value === 'Q',
     );
+    return (items?.length ?? 0) > 0;
   }
 
   public canDenyDecision(userUid: string, decisionLevel: number): boolean {
@@ -71,21 +75,38 @@ export class WorkflowDataWrapper {
 
   public isInsteadOfAllowed(userUid: string, decisionLevel: number): boolean {
     const workflowDataItem = this.getWorkflowDataItem(userUid, decisionLevel);
+    if (!workflowDataItem) return false;
 
-    if (workflowDataItem) {
-      const workflowStep = this.getWorkflowStep(workflowDataItem);
+    const workflowStep = this.getWorkflowStep(workflowDataItem);
+    if (!workflowStep) return false;
 
-      if (workflowStep) {
-        return (
-          !workflowDataItem.Columns.IsFromDelegation?.Value &&
-          !workflowDataItem.Columns.UID_PersonAdditional?.Value?.length &&
-          !workflowDataItem.Columns.UID_PersonInsteadOf?.Value?.length &&
-          workflowStep.Columns.IsInsteadOfAllowed?.Value
-        );
-      }
-    }
+    return (
+      !workflowDataItem.Columns.IsFromDelegation?.Value &&
+      !workflowDataItem.Columns.UID_PersonAdditional?.Value?.length &&
+      !workflowDataItem.Columns.UID_PersonInsteadOf?.Value?.length &&
+      workflowStep.Columns.IsInsteadOfAllowed?.Value
+    );
+  }
 
-    return false;
+  public isInsteadOfAllowedForEscalation(qerWorkingMethode: string, decisionLevel: number): boolean {
+    const currentStep = buildWorkingStepsOrdered(decisionLevel,qerWorkingMethode,this.data.WorkflowSteps).filter(elem=>elem.order === 1).pop();
+    if(!currentStep) return false;
+
+
+    const workflowDataItem = this.data.WorkflowData?.Entities.filter((item) => item.Columns.UID_QERWorkingStep.Value === currentStep.uidWorkingStep).pop();
+    if (!workflowDataItem) return false;
+
+    const workflowStep = this.data.WorkflowSteps?.Entities.filter((item) => item.Columns.UID_QERWorkingStep.Value === currentStep.uidWorkingStep).pop();
+    if (!workflowStep) return false;
+
+    this.getWorkflowStep(workflowDataItem);
+
+    return (
+      !workflowDataItem.Columns.IsFromDelegation?.Value &&
+      !workflowDataItem.Columns.UID_PersonAdditional?.Value?.length &&
+      !workflowDataItem.Columns.UID_PersonInsteadOf?.Value?.length &&
+      workflowStep.Columns.IsInsteadOfAllowed?.Value
+    );
   }
 
   public isAdditionalAllowed(userUid: string, decisionLevel: number): boolean {
